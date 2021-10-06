@@ -78,6 +78,7 @@ if (temp.length != 0) {
   }
 }
 
+// 조편성 결과 출력
 groups.forEach(group => {
   console.log(`<${groups.indexOf(group) + 1}조>`, group.join(' '));
   console.log();
