@@ -37,5 +37,4 @@ const members = [
   { name: '최진영', part: 'Server', group: 'YB' },
   { name: '허유정', part: 'Server', group: 'YB' },
 ];
-
 export default members;
