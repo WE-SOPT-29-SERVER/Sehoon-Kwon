@@ -2,7 +2,7 @@
  * @동등_일치_연산자
  */
 const num = 2;
-const str = "2";
+const str = '2';
 
 // 동등 연산자: 값만 비교
 // == equal
