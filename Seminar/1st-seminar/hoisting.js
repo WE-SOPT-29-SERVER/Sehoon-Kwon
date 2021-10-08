@@ -7,17 +7,17 @@
 hoistFunction();
 
 function hoistFunction() {
-    console.log(x);
-    var x = 'var';
-    console.log(x);
+  console.log(x);
+  var x = 'var';
+  console.log(x);
 }
 
 // 호이스팅된 코드
 function hoistFunction() {
-    var x;
-    console.log(x);
-    x = "var";
-    console.log(x);
+  var x;
+  console.log(x);
+  x = 'var';
+  console.log(x);
 }
 
-hoistFunction()
+hoistFunction();

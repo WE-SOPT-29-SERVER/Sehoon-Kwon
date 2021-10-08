@@ -42,7 +42,7 @@
 // console.log("arr.indexOf(4):", arr.indexOf(4));
 // console.log("arr.indexOf(100):", arr.indexOf(100));
 
-// // 2-6 concat 
+// // 2-6 concat
 // let arr1 = [1, 2, 3];
 // let arr2 = [4, 5, 6];
 // let concatArr = arr1.concat(arr2);
@@ -97,27 +97,27 @@
  * @배열_순회
  */
 let serverPart = [
-"강한희",
-"고성용",
-"구건모",
-"권세훈",
-"김영권",
-"김은지",
-"김진욱",
+  '강한희',
+  '고성용',
+  '구건모',
+  '권세훈',
+  '김영권',
+  '김은지',
+  '김진욱',
 ];
 let serverIndexStr = '서버파트 여러분 번호 한번 세겠습니다. "';
 let serverPartMemberNameStr = '서버파트 여러분 이름 한번씩만 불러주세요~ "';
 
 for (let item in serverPart) {
-    serverIndexStr += item + "! ";
+  serverIndexStr += item + '! ';
 }
 console.log(serverIndexStr);
 
 for (let item of serverPart) {
-    serverPartMemberNameStr += item + "! ";
+  serverPartMemberNameStr += item + '! ';
 }
 console.log(serverPartMemberNameStr);
 
 serverPart.forEach(item => {
-    console.log(item);
+  console.log(item);
 });

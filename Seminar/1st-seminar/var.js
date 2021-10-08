@@ -1,15 +1,15 @@
 /*
-* @변수 선언
-*/
+ * @변수 선언
+ */
 
-// var 
-var testVar = '123'
-a = '321'
+// var
+var testVar = '123';
+a = '321';
 
-console.log("a", a)
+console.log('a', a);
 
-// let 
-let testLet = 'abc'
+// let
+let testLet = 'abc';
 
 // const
-const testConst = 'abc'
+const testConst = 'abc';
