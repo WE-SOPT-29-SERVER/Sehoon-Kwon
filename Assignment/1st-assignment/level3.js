@@ -4,7 +4,8 @@
  * @desc 조건: OB, YB 비율 오차범위를 최소한으로 유지하며 코드 작성
  */
 
-import members from './members.js';
+// import members from './members.js';
+const members = require('./members');
 
 let YB = [];
 let OB = [];
