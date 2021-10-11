@@ -6,14 +6,19 @@ const encrypt = password => {
   return crypto.createHash('sha512').update(password).digest('hex');
 };
 
-const readFile = () => {
+const readFile = fileName => {
   console.log('... Loading Password File ! ...');
-  return fs.readFileSync(__dirname + '/password.txt', 'utf8');
+  return fs.readFileSync(__dirname + `/text/${fileName}.txt`, 'utf8');
 };
 
 const writeFile = data => {
+  console.log('... Check /text ...');
+  fs.writeFileSync(__dirname + '/text/hashed.txt', data);
   console.log('... Hashed Password File Generated ! ...');
-  fs.writeFileSync(__dirname + '/hashed.txt', data);
 };
 
-module.exports = { encrypt, readFile, writeFile };
+module.exports = {
+  encrypt,
+  readFile,
+  writeFile,
+};
