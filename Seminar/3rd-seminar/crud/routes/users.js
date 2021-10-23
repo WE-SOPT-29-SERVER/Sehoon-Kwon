@@ -9,9 +9,10 @@ const { success, fail } = require('../lib/util');
  * @SIGN_UP
  */
 router.post('/signup', async (req, res) => {
-  const { id, name, password, email } = req.body;
+  // 비구조화 할당
+  const { name, password, email } = req.body;
 
-  if (!id || !name || !password || !email) {
+  if (!name || !password || !email) {
     return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
   }
 
@@ -22,7 +23,7 @@ router.post('/signup', async (req, res) => {
       .send(fail(sc.BAD_REQUEST, rm.ALREADY_EMAIL));
   }
 
-  const newUser = { id, name, password, email };
+  const newUser = { id: users.length + 1, name, password, email };
   users.push(newUser);
   res.status(sc.OK).send(success(sc.OK, rm.CREATED_USER, newUser));
 });
@@ -58,6 +59,75 @@ router.post('/login', async (req, res) => {
       },
     })
   );
+});
+
+/**
+ * @GET_PROFILE
+ */
+
+router.get('/profile/:id', async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  }
+
+  const user = users.filter(user => user.id === Number(id))[0];
+
+  if (!user) {
+    return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_USER));
+  }
+
+  res.status(sc.OK).send(
+    success(sc.OK, rm.READ_PROFILE_SUCCESS, {
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    })
+  );
+});
+
+/**
+ * @UPDATE_USER
+ */
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { newName } = req.body;
+
+  if (!id || !newName) {
+    return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  }
+
+  const user = users.filter(user => user.id === Number(id))[0];
+
+  if (!user) {
+    return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_USER));
+  }
+
+  const updatedUser = { ...user, name: newName };
+  res.status(sc.OK).send(success(sc.OK, rm.UPDATE_SUCCESS, updatedUser));
+});
+
+/**
+ * @DELETE_USER
+ */
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+  }
+
+  const user = users.filter(user => user.id === Number(id))[0];
+
+  if (!user) {
+    return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_USER));
+  }
+
+  const newUsers = users.filter(user => user.id !== Number(id));
+  res.status(sc.OK).send(success(sc.OK, rm.DELETE_USER, newUsers));
 });
 
 module.exports = router;
