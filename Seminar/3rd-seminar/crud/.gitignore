@@ -64,6 +64,3 @@ node_modules/
 
 # dotenv environment variables file
 .env
-
-# 파이어베이스
-wesopt29-6377c-firebase-adminsdk-90658-fe939ea075.json
