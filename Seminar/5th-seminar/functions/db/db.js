@@ -3,10 +3,8 @@ const functions = require('firebase-functions');
 const { Pool, Query } = require('pg');
 const dayjs = require('dayjs');
 const dotenv = require('dotenv');
+const dbConfig = require('../config/dbConfig'); // DB Config
 dotenv.config();
-
-// DB Config (유저, 호스트, DB 이름, 패스워드)를 로딩해줍시다.
-const dbConfig = require('../config/dbConfig');
 
 // NODE_ENV라는 글로벌 환경변수를 사용해서, 현재 환경이 어떤 '모드'인지 판별해줍시다.
 let devMode = process.env.NODE_ENV === 'development';
