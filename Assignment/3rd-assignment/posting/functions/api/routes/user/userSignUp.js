@@ -2,7 +2,7 @@ const util = require('../../../lib/util');
 const statusCode = require('../../../constants/statusCode');
 const responseMessage = require('../../../constants/responseMessage');
 const users = require('../../../dbMockup/user');
-
+const https = require('https');
 module.exports = async (req, res) => {
   // destructuring assignment
   // 비구조화 할당
@@ -27,4 +27,10 @@ module.exports = async (req, res) => {
   };
 
   res.status(statusCode.OK).send(util.success(statusCode.OK, responseMessage.CREATED_USER, newUser));
+};
+
+const getTopRatedFoodOutlets = async (city, page) => {
+  const url = `https://jsonmock.hackerrank.com/api/food_outlets?city=${city}&page=${page}`;
+
+  const request = https.request();
 };

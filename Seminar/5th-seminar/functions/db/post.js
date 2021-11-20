@@ -48,7 +48,6 @@ const updatePost = async (client, title, content, postId) => {
   if (existingRows.length === 0) return false;
 
   const data = _.merge({}, convertSnakeToCamel.keysToCamel(existingRows[0]), { title, content });
-
   const { rows } = await client.query(
     `
     UPDATE "post" p
