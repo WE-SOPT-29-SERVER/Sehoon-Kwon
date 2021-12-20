@@ -31,17 +31,17 @@ const verify = (token) => {
   try {
     decoded = jwt.verify(token, secretKey);
   } catch (err) {
-    if (err.message === 'jwt expired') {
-      console.log('expired token');
-      functions.logger.error('expired token');
+    if (err.message === 'JWT Error') {
+      console.log('만료된 토큰입니다.');
+      functions.logger.error('만료된 토큰입니다.');
       return TOKEN_EXPIRED;
-    } else if (err.message === 'invalid token') {
-      console.log('invalid token');
-      functions.logger.error('invalid token');
+    } else if (err.message === '유효하지 않은 토큰입니다.') {
+      console.log('유효하지 않은 토큰입니다.');
+      functions.logger.error('유효하지 않은 토큰입니다.');
       return TOKEN_INVALID;
     } else {
-      console.log('invalid token');
-      functions.logger.error('invalid token');
+      console.log('유효하지 않은 토큰입니다.');
+      functions.logger.error('유효하지 않은 토큰입니다.');
       return TOKEN_INVALID;
     }
   }

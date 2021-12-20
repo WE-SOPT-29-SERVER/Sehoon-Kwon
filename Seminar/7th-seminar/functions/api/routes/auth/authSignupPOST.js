@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
   try {
     const client = await db.connect();
 
+    // firebase auth에서 유저 생성
     const userFirebase = await admin
       .auth()
       .createUser({ email, password, name })
@@ -38,13 +39,16 @@ module.exports = async (req, res) => {
       }
     }
 
+    // RDS DB에 유저 생성
     const idFirebase = userFirebase.uid;
-
     const user = await userDB.addUser(client, email, name, phone, idFirebase);
+
+    // 아까 작성한 jwtHandler를 이용하여 token을 발행
     const { accesstoken } = jwtHandlers.sign(user);
 
     console.log(user);
 
+    // 생성된 user, token response
     res.status(sc.OK).send(success(sc.OK, rm.CREATED_USER, { user, accesstoken }));
   } catch (error) {
     console.log(error);

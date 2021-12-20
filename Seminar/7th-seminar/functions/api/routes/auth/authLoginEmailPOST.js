@@ -21,6 +21,7 @@ module.exports = async (req, res) => {
   try {
     client = await db.connect(req);
 
+    // firebase auth를 통해 유저 인증
     const userFirebase = await signInWithEmailAndPassword(firebaseAuth, email, password)
       .then((user) => user)
       .catch((e) => {
@@ -44,10 +45,13 @@ module.exports = async (req, res) => {
       user: { uid: idFirebase },
     } = userFirebase;
 
+    // RDS DB에 저장되어 있는 user 조회
     const user = await userDB.getUserByIdFirebase(client, idFirebase);
 
+    // token 발급
     const { accesstoken } = jwtHandlers.sign(user);
 
+    // 로그인한 user와 발행된 token response
     res.status(sc.OK).send(success(sc.OK, rm.LOGIN_SUCCESS, { user, accesstoken }));
   } catch (error) {
     console.log(error);
