@@ -4,7 +4,7 @@ const { TOKEN_INVALID, TOKEN_EXPIRED } = require('../constants/jwt');
 
 // JWT를 발급/인증할 떄 필요한 secretKey를 설정합니다. 값은 .env로부터 불러옵니다.
 const secretKey = process.env.JWT_SECRET;
-const options = {
+const ac_options = {
   algorithm: 'HS256',
   expiresIn: '30d',
   issuer: 'wesopt',
@@ -20,7 +20,7 @@ const sign = (user) => {
   };
 
   const result = {
-    accesstoken: jwt.sign(payload, secretKey, options),
+    accesstoken: jwt.sign(payload, secretKey, ac_options),
   };
   return result;
 };
