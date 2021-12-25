@@ -6,9 +6,9 @@ const os = require('os');
 const fs = require('fs');
 const dayjs = require('dayjs');
 const { firebaseConfig } = require('../config/firebaseClient');
-const util = require('../lib/util');
-const statusCode = require('../constants/statusCode');
-const responseMessage = require('../constants/responseMessage');
+const { success, fail } = require('../lib/util');
+const sc = require('../constants/statusCode');
+const rm = require('../constants/responseMessage');
 
 const uploadImage = (req, res, next) => {
   const busboy = new BusBoy({ headers: req.headers });
@@ -67,7 +67,7 @@ const uploadImage = (req, res, next) => {
     } catch (err) {
       console.error(err);
       functions.logger.error(`[FILE UPLOAD ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`);
-      return res.status(500).json(util.fail(statusCode.INTERNAL_SERVER_ERROR, responseMessage.INTERNAL_SERVER_ERROR));
+      return res.status(500).json(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
     }
   });
 
