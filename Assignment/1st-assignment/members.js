@@ -1,4 +1,4 @@
-const members = [
+module.exports = [
   { name: '강한희', part: 'Server', group: 'OB' },
   { name: '고성용', part: 'Server', group: 'OB' },
   { name: '구건모', part: 'Server', group: 'YB' },
@@ -37,4 +37,3 @@ const members = [
   { name: '최진영', part: 'Server', group: 'YB' },
   { name: '허유정', part: 'Server', group: 'YB' },
 ];
-export default members;
