@@ -9,8 +9,8 @@ const posts = require('../../../dbMockup/posts');
  * @모든_게시글_조회
  */
 router.get('/', async (req, res) => {
-  const allPost = posts.length > 0;
-  if (!allPost) {
+  const isExistPost = posts.length > 0;
+  if (!isExistPost) {
     return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_POST));
   }
   res.status(sc.OK).send(success(sc.OK, rm.GET_POST_SUCCESS, posts));

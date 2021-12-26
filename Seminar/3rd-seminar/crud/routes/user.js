@@ -1,14 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const users = require('../dbMockup/user');
-const rm = require('../constants/responseMessage');
-const sc = require('../constants/statusCode');
-const { success, fail } = require('../lib/util');
+const users = require("../dbMockup/user");
+const rm = require("../constants/responseMessage");
+const sc = require("../constants/statusCode");
+const { success, fail } = require("../lib/util");
 
 /**
  * @SIGN_UP
  */
-router.post('/signup', async (req, res) => {
+router.post("/signup", async (req, res) => {
   // 비구조화 할당
   const { name, password, email } = req.body;
 
@@ -31,7 +31,7 @@ router.post('/signup', async (req, res) => {
 /**
  * @LOGIN
  */
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
  * @GET_PROFILE
  */
 
-router.get('/profile/:id', async (req, res) => {
+router.get("/profile/:id", async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
@@ -92,7 +92,7 @@ router.get('/profile/:id', async (req, res) => {
 /**
  * @UPDATE_USER
  */
-router.put('/:id', async (req, res) => {
+router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { newName } = req.body;
 
@@ -113,7 +113,7 @@ router.put('/:id', async (req, res) => {
 /**
  * @DELETE_USER
  */
-router.delete('/:id', async (req, res) => {
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 
   if (!id) {

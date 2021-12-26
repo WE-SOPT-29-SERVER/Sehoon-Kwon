@@ -4,7 +4,7 @@ const convertSnakeToCamel = require('../lib/convertSnakeToCamel');
 const getAllPosts = async (client) => {
   const { rows } = await client.query(
     `
-    SELECT * FROM "post" p
+    SELECT * FROM post p
     WHERE is_deleted = FALSE
     `,
   );
@@ -14,7 +14,7 @@ const getAllPosts = async (client) => {
 const getPostById = async (client, postId) => {
   const { rows } = await client.query(
     `
-    SELECT * FROM "post" p
+    SELECT * FROM post p
     WHERE id = $1
       AND is_deleted = FALSE
     `,
@@ -23,14 +23,16 @@ const getPostById = async (client, postId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-const getPostByIdFirebase = async (client, idFirebase) => {
+const addPost = async (client, userId, title, content, imageUrls) => {
   const { rows } = await client.query(
     `
-    SELECT * FROM "post" p
-    WHERE id_firebase = $1
-      AND is_deleted = FALSE
+    INSERT INTO post
+    (user_id, title, content, image_urls)
+    VALUES
+    ($1, $2, $3, $4)
+    RETURNING *
     `,
-    [idFirebase],
+    [userId, title, content, imageUrls],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
@@ -38,7 +40,7 @@ const getPostByIdFirebase = async (client, idFirebase) => {
 const updatePost = async (client, title, content, postId) => {
   const { rows: existingRows } = await client.query(
     `
-    SELECT * FROM "post"
+    SELECT * FROM post p
     WHERE id = $1
        AND is_deleted = FALSE
     `,
@@ -48,9 +50,10 @@ const updatePost = async (client, title, content, postId) => {
   if (existingRows.length === 0) return false;
 
   const data = _.merge({}, convertSnakeToCamel.keysToCamel(existingRows[0]), { title, content });
+
   const { rows } = await client.query(
     `
-    UPDATE "post" p
+    UPDATE post p
     SET title = $1, content = $2, updated_at = now()
     WHERE id = $3
     RETURNING * 
@@ -63,7 +66,7 @@ const updatePost = async (client, title, content, postId) => {
 const deletePost = async (client, postId) => {
   const { rows } = await client.query(
     `
-    UPDATE "post" p
+    UPDATE post p
     SET is_deleted = TRUE, updated_at = now()
     WHERE id = $1
     RETURNING *
@@ -74,19 +77,28 @@ const deletePost = async (client, postId) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-const addPost = async (client, title, content) => {
+const getPostsByUserId = async (client, userId) => {
   const { rows } = await client.query(
     `
-    INSERT INTO "post"
-    (title, content)
-    VALUES
-    ($1, $2)
-    RETURNING *
+    SELECT * FROM post
+    WHERE user_id = $1
+      AND is_deleted = FALSE
     `,
-
-    [title, content],
+    [userId],
   );
-  return convertSnakeToCamel.keysToCamel(rows[0]);
+  return convertSnakeToCamel.keysToCamel(rows);
 };
 
-module.exports = { getAllPosts, getPostById, getPostByIdFirebase, updatePost, deletePost, addPost };
+const getPostsByUserIds = async (client, userIds) => {
+  if (userIds.length < 1) return [];
+  const { rows } = await client.query(
+    `
+    SELECT * FROM post
+    WHERE user_id IN (${userIds.join()})
+      AND is_deleted = FALSE
+    `,
+  );
+  return convertSnakeToCamel.keysToCamel(rows);
+};
+
+module.exports = { getAllPosts, getPostById, addPost, updatePost, deletePost, getPostsByUserId, getPostsByUserIds };

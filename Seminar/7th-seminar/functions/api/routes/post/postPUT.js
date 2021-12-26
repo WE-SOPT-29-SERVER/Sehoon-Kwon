@@ -6,17 +6,19 @@ const db = require('../../../db/db');
 const { postDB } = require('../../../db');
 
 module.exports = async (req, res) => {
+  const { postId } = req.params;
   const { title, content } = req.body;
-  const url = 'https://user-images.githubusercontent.com/54793607/142727985-d8aaaad5-f7b1-47bb-91e5-fb4936db1b74.png';
-  if (!title || !content) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
+
+  if (!postId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
 
   let client;
 
   try {
     client = await db.connect(req);
-    const post = await postDB.addPost(client, title, content, url);
+    const updatedPost = await postDB.updatePost(client, title, content, postId);
+    if (!updatedPost) return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.NO_POST));
 
-    res.status(sc.OK).send(success(sc.OK, rm.ADD_ONE_POST_SUCCESS, post));
+    res.status(sc.OK).send(success(sc.OK, rm.UPDATE_ONE_POST_SUCCESS, updatedPost));
   } catch (error) {
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);
     console.log(error);
